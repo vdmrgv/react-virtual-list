@@ -4,9 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+const makeTableData = (w: number, h: number) => new Array(h).fill(0).map((_, row) =>
+  new Array(w).fill(0).map((_, col) => row * 10 + col));
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App
+      data={makeTableData(5, 10000)}
+      rowHeight={40}
+      visibleRows={3}
+    />
   </React.StrictMode>,
   document.getElementById('root')
 );
