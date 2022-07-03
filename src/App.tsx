@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 
 interface Props {
@@ -8,32 +8,29 @@ interface Props {
 }
 
 const App = ({ data, rowHeight, visibleRows }: Props) => {
-  const rootRef = React.useRef();
-  const [start, setStart] = React.useState(0);
+  const rootRef = useRef<HTMLDivElement | null>(null);
+  const [start, setStart] = useState(0);
 
 
   const getTopHeight = () => rowHeight * start;
 
   const getBottomHeight = () => rowHeight * (data.length - (start + visibleRows + 1));
 
-  React.useEffect(() => {
+  useEffect(() => {
     const onScroll = (e: any) => {
       setStart(Math.min(
         data.length - visibleRows - 1,
         Math.floor(e.target.scrollTop / rowHeight)
       ));
     }
-    //@ts-ignore
-    rootRef.current.addEventListener('scroll', onScroll);
+    rootRef.current?.addEventListener('scroll', onScroll);
 
     return () => {
-      //@ts-ignore
-      rootRef.current.removeEventListener('scroll', onScroll);
+      rootRef.current?.removeEventListener('scroll', onScroll);
     }
   }, [data.length, visibleRows, rowHeight]);
 
   return (
-    //@ts-ignore
     <div style={{ height: rowHeight * visibleRows + 1, overflow: 'auto' }} ref={rootRef}>
       <div style={{ height: getTopHeight() }} />
       <table>
