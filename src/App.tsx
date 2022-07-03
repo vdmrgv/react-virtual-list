@@ -11,6 +11,7 @@ const App = ({ data, rowHeight, visibleRows }: Props) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [start, setStart] = useState(0);
 
+  const getScrollHeight = () => rowHeight * visibleRows + 1;
 
   const getTopHeight = () => rowHeight * start;
 
@@ -31,7 +32,7 @@ const App = ({ data, rowHeight, visibleRows }: Props) => {
   }, [data.length, visibleRows, rowHeight]);
 
   return (
-    <div style={{ height: rowHeight * visibleRows + 1, overflow: 'auto' }} ref={rootRef}>
+    <div style={{ height: getScrollHeight(), overflow: 'auto' }} ref={rootRef}>
       <div style={{ height: getTopHeight() }} />
       <table>
         <tbody>
